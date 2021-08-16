@@ -33,8 +33,10 @@ app.post("/posts", async ({ body: { title } }, res) => {
 });
 
 app.post("/events", ({ body: { type, data: post } }, res) => {
-  console.log("Received Event", type);
-  posts[post.id] = post;
+  if (type === "PostCreated") {
+    console.log("Received Event", type);
+    posts[post.id] = post;
+  }
   res.send({});
 });
 
