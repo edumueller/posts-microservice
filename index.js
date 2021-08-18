@@ -25,10 +25,14 @@ app.get("/posts/:id", ({ params: { id } }, res) => {
 
 app.post("/posts", async ({ body: { title } }, res) => {
   const id = randomBytes(4).toString("hex");
-  await axios.post("http://event-bus-srv:4005/events", {
-    type: "PostCreated",
-    data: { id, title },
-  });
+  await axios
+    .post("http://event-bus-srv:4005/events", {
+      type: "PostCreated",
+      data: { id, title },
+    })
+    .catch((e) => {
+      console.log(e);
+    });
   res.status(201).send(posts[id]);
 });
 
